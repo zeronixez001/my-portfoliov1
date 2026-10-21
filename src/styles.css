@@ -145,3 +145,39 @@ input, textarea, button, select {
   background-size: 28px 28px;
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
 }
+
+
+/* Contact form responsiveness: avoid animating/repainting the entire contact
+   section when a user focuses or types in a form control. */
+#contact:focus-within,
+#contact:focus-within[data-reveal],
+.js-reveal #contact:focus-within[data-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+#contact form,
+#contact input,
+#contact textarea,
+#contact button {
+  animation: none !important;
+  transition: none !important;
+}
+
+#contact input,
+#contact textarea {
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  pointer-events: auto;
+  touch-action: manipulation;
+  transform: none !important;
+  filter: none !important;
+  contain: layout style;
+}
+
+#contact textarea {
+  resize: vertical;
+}
