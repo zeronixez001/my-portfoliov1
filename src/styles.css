@@ -108,7 +108,22 @@
   --input: oklch(0.32 0.03 260);
   --ring: oklch(0.75 0.12 75);
 }
-body { transition: background-color .4s, color .4s; }
+/* Avoid whole-page paint transitions while typing or focusing form fields. */
+body { transition: none; }
+
+/* Ensure form controls remain interactive above decorative layers. */
+input, textarea, button, select {
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
 @keyframes drift {
   0%,100% { transform: translate(0,0) scale(1); }
@@ -116,8 +131,14 @@ body { transition: background-color .4s, color .4s; }
   66% { transform: translate(-6vw,8vh) scale(.9); }
 }
 @utility blob {
-  position: absolute; border-radius: 9999px; filter: blur(80px); opacity: .35;
-  animation: drift 22s ease-in-out infinite;
+  /* Keep decorative blobs static: continuously animating large blurred layers
+     can trigger expensive repaints while users focus and type in the contact form. */
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(36px);
+  opacity: .18;
+  animation: none;
+  will-change: auto;
 }
 @utility bg-grid-fixed {
   background-image: radial-gradient(color-mix(in oklab, var(--foreground) 18%, transparent) 1px, transparent 1px);
