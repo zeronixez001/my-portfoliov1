@@ -1,0 +1,126 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --font-heading: "Libre Baskerville", Georgia, serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0.25rem;
+  --background: oklch(0.985 0.005 85);
+  --foreground: oklch(0.22 0.03 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.03 260);
+  --primary: oklch(0.28 0.06 260);
+  --primary-foreground: oklch(0.98 0.005 85);
+  --secondary: oklch(0.95 0.008 85);
+  --secondary-foreground: oklch(0.28 0.06 260);
+  --muted: oklch(0.95 0.008 85);
+  --muted-foreground: oklch(0.5 0.02 260);
+  --accent: oklch(0.6 0.1 70);
+  --accent-foreground: oklch(0.98 0.005 85);
+  --border: oklch(0.88 0.01 85);
+  --input: oklch(0.88 0.01 85);
+  --ring: oklch(0.28 0.06 260);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body { background-color: var(--color-background); color: var(--color-foreground); font-family: var(--font-body); }
+  h1, h2, h3 { font-family: var(--font-heading); }
+}
+
+@utility card-formal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+  &:hover { border-color: var(--primary); box-shadow: 0 8px 24px -12px color-mix(in oklab, var(--primary) 35%, transparent); transform: translateY(-2px); }
+}
+
+@utility btn-primary {
+  background: var(--primary); color: var(--primary-foreground);
+  padding: .7rem 1.4rem; font-size: .875rem; font-weight: 500; border-radius: var(--radius);
+  transition: opacity .2s;
+  &:hover { opacity: .9; }
+}
+
+@utility btn-outline {
+  border: 1px solid var(--primary); color: var(--primary);
+  padding: .7rem 1.4rem; font-size: .875rem; font-weight: 500; border-radius: var(--radius);
+  transition: all .2s;
+  &:hover { background: var(--primary); color: var(--primary-foreground); }
+}
+
+/* Content remains visible by default; JS adds reveal animation when available. */
+[data-reveal] { opacity: 1; transform: none; }
+.js-reveal [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+.js-reveal [data-reveal].revealed { opacity: 1; transform: none; }
+
+@keyframes blink { 50% { opacity: 0 } }
+@utility caret { animation: blink 1s step-end infinite; }
+
+@keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-14px) } }
+@utility animate-float { animation: float 6s ease-in-out infinite; }
+
+@utility hero-grid {
+  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 30% 40%, black, transparent 70%);
+}
+
+.dark {
+  --background: oklch(0.16 0.02 260);
+  --foreground: oklch(0.93 0.01 85);
+  --card: oklch(0.2 0.025 260);
+  --card-foreground: oklch(0.93 0.01 85);
+  --primary: oklch(0.9 0.03 85);
+  --primary-foreground: oklch(0.18 0.03 260);
+  --secondary: oklch(0.24 0.025 260);
+  --secondary-foreground: oklch(0.93 0.01 85);
+  --muted: oklch(0.24 0.025 260);
+  --muted-foreground: oklch(0.68 0.02 260);
+  --accent: oklch(0.75 0.12 75);
+  --accent-foreground: oklch(0.16 0.02 260);
+  --border: oklch(0.32 0.03 260);
+  --input: oklch(0.32 0.03 260);
+  --ring: oklch(0.75 0.12 75);
+}
+body { transition: background-color .4s, color .4s; }
+
+@keyframes drift {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(8vw,-6vh) scale(1.15); }
+  66% { transform: translate(-6vw,8vh) scale(.9); }
+}
+@utility blob {
+  position: absolute; border-radius: 9999px; filter: blur(80px); opacity: .35;
+  animation: drift 22s ease-in-out infinite;
+}
+@utility bg-grid-fixed {
+  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 18%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
