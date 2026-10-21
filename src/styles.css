@@ -108,22 +108,7 @@
   --input: oklch(0.32 0.03 260);
   --ring: oklch(0.75 0.12 75);
 }
-/* Avoid whole-page paint transitions while typing or focusing form fields. */
-body { transition: none; }
-
-/* Ensure form controls remain interactive above decorative layers. */
-input, textarea, button, select {
-  pointer-events: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+body { transition: background-color .4s, color .4s; }
 
 @keyframes drift {
   0%,100% { transform: translate(0,0) scale(1); }
@@ -131,53 +116,11 @@ input, textarea, button, select {
   66% { transform: translate(-6vw,8vh) scale(.9); }
 }
 @utility blob {
-  /* Keep decorative blobs static: continuously animating large blurred layers
-     can trigger expensive repaints while users focus and type in the contact form. */
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(36px);
-  opacity: .18;
-  animation: none;
-  will-change: auto;
+  position: absolute; border-radius: 9999px; filter: blur(80px); opacity: .35;
+  animation: drift 22s ease-in-out infinite;
 }
 @utility bg-grid-fixed {
   background-image: radial-gradient(color-mix(in oklab, var(--foreground) 18%, transparent) 1px, transparent 1px);
   background-size: 28px 28px;
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
-}
-
-
-/* Contact form responsiveness: avoid animating/repainting the entire contact
-   section when a user focuses or types in a form control. */
-#contact:focus-within,
-#contact:focus-within[data-reveal],
-.js-reveal #contact:focus-within[data-reveal] {
-  opacity: 1;
-  transform: none;
-  transition: none;
-}
-
-#contact form,
-#contact input,
-#contact textarea,
-#contact button {
-  animation: none !important;
-  transition: none !important;
-}
-
-#contact input,
-#contact textarea {
-  display: block;
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  pointer-events: auto;
-  touch-action: manipulation;
-  transform: none !important;
-  filter: none !important;
-  contain: layout style;
-}
-
-#contact textarea {
-  resize: vertical;
 }
