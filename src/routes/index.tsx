@@ -38,33 +38,12 @@ function useRevealAndNav(setActive: (s: string) => void) {
 }
 
 function ScrollProgress({ onScroll }: { onScroll: (y: number) => void }) {
-  const barRef = useRef<HTMLDivElement>(null);
-  const lastPastThreshold = useRef(false);
+  const [p, setP] = useState(0);
   useEffect(() => {
-    let frame = 0;
-    const update = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const h = document.documentElement;
-        const max = h.scrollHeight - h.clientHeight;
-        if (barRef.current) barRef.current.style.width = `${max > 0 ? (h.scrollTop / max) * 100 : 0}%`;
-        const pastThreshold = h.scrollTop > 500;
-        if (pastThreshold !== lastPastThreshold.current) {
-          lastPastThreshold.current = pastThreshold;
-          onScroll(pastThreshold ? 1 : 0);
-        }
-      });
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
+    const f = () => { const h = document.documentElement; setP(h.scrollTop / (h.scrollHeight - h.clientHeight || 1)); onScroll(h.scrollTop); };
+    window.addEventListener("scroll", f, { passive: true }); return () => window.removeEventListener("scroll", f);
   }, [onScroll]);
-  return <div ref={barRef} className="fixed top-0 left-0 z-50 h-0.5 bg-accent transition-[width]" style={{ width: "0%" }} />;
+  return <div className="fixed top-0 left-0 z-50 h-0.5 bg-accent transition-[width]" style={{ width: `${p * 100}%` }} />;
 }
 
 const roles = ["Web Developer", "Software Engineer", "Problem Solver", "Lifelong Learner"];
