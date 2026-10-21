@@ -275,23 +275,28 @@ function Index() {
         </div>
       </nav>
 
-      <header id="top" className="relative mx-auto max-w-5xl px-6 pt-28 pb-24">
+      <header id="top" className="relative mx-auto grid max-w-5xl items-center gap-10 px-6 pt-20 pb-24 md:grid-cols-[1fr_240px] md:pt-28">
         <div className="hero-grid pointer-events-none absolute inset-0 -z-10" />
         <div className="animate-float pointer-events-none absolute top-24 right-6 -z-10 hidden h-64 w-64 rounded-full bg-accent/15 blur-3xl md:block" />
-        <p className="text-sm font-medium tracking-widest text-accent uppercase">Portfolio</p>
-        <h1 className="mt-4 text-5xl leading-tight text-primary md:text-7xl">Adrian Montes</h1>
-        <p className="mt-4 text-2xl font-heading md:text-3xl"><Typewriter /></p>
-        <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-          Fourth-year student at ICCT College, focused on building reliable, well-designed web applications.
-        </p>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <a href="#projects" className="btn-primary">View Projects</a>
-          <a href="#contact" className="btn-outline">Contact Me</a>
+        <div>
+          <p className="text-sm font-medium tracking-widest text-accent uppercase">Portfolio</p>
+          <h1 className="mt-4 text-5xl leading-tight text-primary md:text-7xl">Adrian Montes</h1>
+          <p className="mt-4 text-2xl font-heading md:text-3xl"><Typewriter /></p>
+          <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
+            Fourth-year student at ICCT College, focused on building reliable, well-designed web applications.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <a href="#projects" className="btn-primary">View Projects</a>
+            <a href="#contact" className="btn-outline">Contact Me</a>
+          </div>
+          <div className="mt-12 grid max-w-xl grid-cols-3 gap-6 border-t border-border pt-8">
+            <Counter to={4} label="Years of study" />
+            <RepoCounter label="Projects on GitHub" />
+            <Counter to={12} label="Technologies" />
+          </div>
         </div>
-        <div className="mt-16 grid max-w-xl grid-cols-3 gap-6 border-t border-border pt-8">
-          <Counter to={4} label="Years of study" />
-          <RepoCounter label="Projects on GitHub" />
-          <Counter to={12} label="Technologies" />
+        <div className="mx-auto w-full max-w-[180px] md:max-w-[220px]">
+          <img src="/my-portfoliov1/adrian-montes.jpg" alt="Adrian Montes" className="aspect-[3/4] w-full rounded-2xl border border-border object-cover shadow-xl ring-1 ring-accent/30" />
         </div>
       </header>
 
