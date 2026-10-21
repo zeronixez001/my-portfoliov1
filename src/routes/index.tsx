@@ -40,7 +40,7 @@ function useRevealAndNav(setActive: (s: string) => void) {
 function ScrollProgress({ onScroll }: { onScroll: (y: number) => void }) {
   const [p, setP] = useState(0);
   useEffect(() => {
-    const f = () => { const h = document.documentElement; setP(h.scrollTop / (h.scrollHeight - h.clientHeight || 1)); onScroll(h.scrollTop); };
+    const f = () => { const h = document.documentElement; setP(h.scrollTop / (h.scrollHeight - h.clientHeight || 1)); onScroll(h.scrollTop > 500 ? 1 : 0); };
     window.addEventListener("scroll", f, { passive: true }); return () => window.removeEventListener("scroll", f);
   }, [onScroll]);
   return <div className="fixed top-0 left-0 z-50 h-0.5 bg-accent transition-[width]" style={{ width: `${p * 100}%` }} />;
